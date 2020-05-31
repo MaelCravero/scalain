@@ -7,3 +7,6 @@ project
 .bloop
 tags
 *.swp
+
+#H2
+mem.h2.db
