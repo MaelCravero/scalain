@@ -9,4 +9,7 @@ class Country(
     val keywords: Option[String]
 ) {
   def this() = this(0, "", "", "", "", None)
+
+  override def toString() =
+    s"$id - $code ($name), $continent - $wikipediaLink - $keywords"
 }

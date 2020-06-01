@@ -1,4 +1,4 @@
-name := "TP_MR"
+name := "Scalain"
 
 version := "0.1"
 
