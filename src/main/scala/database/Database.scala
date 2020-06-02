@@ -24,6 +24,8 @@ object Database {
 
   object Tables extends Schema {
     val countries = table[Country]("COUNTRIES")
+    val airports = table[Airport]("AIRPORTS")
+    val runways = table[Runway]("RUNWAY")
 
     def dump(implicit session: org.squeryl.Session) =
       using(session) {
