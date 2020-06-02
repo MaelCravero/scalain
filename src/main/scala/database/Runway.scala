@@ -1,6 +1,7 @@
 package scalain.database
 
-case class Runway(
+/** Runway representation in the DB. */
+class Runway(
     val id: Int,
     val airportRef: Int,
     val airportIdent: String,

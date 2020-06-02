@@ -1,5 +1,6 @@
 package scalain.database
 
+/** Country representation in the DB. */
 class Country(
     val id: Int,
     val code: String,

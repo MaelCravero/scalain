@@ -1,5 +1,6 @@
 package scalain.database
 
+/** Airport representation in the DB. */
 class Airport(
     val id: Int,
     val ident: String,
