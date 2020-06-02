@@ -1,10 +1,13 @@
 package scalain
 
 import scala.io.StdIn.readLine
+import scalain.parser._
+import scalain.database.Database
 
 object Main extends App {
 
-  // Create databases and parse CSV files
+  val database = Database.start
+  Parser.include_resources(database)
 
   println("Use one of the following commands")
 
