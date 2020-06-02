@@ -10,6 +10,8 @@ class Country(
 ) {
   def this() = this(0, "", "", "", "", None)
 
-  override def toString() =
-    s"$id - $code ($name), $continent - $wikipediaLink - $keywords"
+  override def toString() = {
+    val keywords_strings = keywords.getOrElse("No keywords")
+    s"$id $code ($name), $continent - $wikipediaLink - $keywords_strings"
+  }
 }
