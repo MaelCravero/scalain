@@ -22,6 +22,13 @@ class RunwayRepository(implicit val session: org.squeryl.Session) {
     }
   }
 
+  /** Get all runways from the RUNWAYS table as a list. */
+  def getAllRunways(): List[Runway] = {
+    using(session) {
+      from(Database.Tables.runways)(select(_)).toList
+    }
+  }
+
   /** Get most common runway latitudes. */
   def getMostCommonLatitudes(n: Int) {
     using(session) {

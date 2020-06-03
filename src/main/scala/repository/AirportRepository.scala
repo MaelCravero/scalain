@@ -22,4 +22,11 @@ class AirportRepository(implicit val session: org.squeryl.Session) {
     }
   }
 
+  /** Get all airports from the AIRPORTS table as a list. */
+  def getAllAirports(): List[Airport] = {
+    using(session) {
+      from(Database.Tables.airports)(select(_)).toList
+    }
+  }
+
 }

@@ -24,6 +24,13 @@ class CountryRepository(implicit val session: org.squeryl.Session) {
     }
   }
 
+  /** Get all countries from the COUNTRIES table as a list. */
+  def getAllCountries(): List[Country] = {
+    using(session) {
+      from(Database.Tables.countries)(select(_)).toList
+    }
+  }
+
   /** Get countries with highest number of airports. */
   def getMostAirports(n: Int): List[Country] = {
     using(session) {
