@@ -16,9 +16,11 @@ class CountryRepository(implicit val session: org.squeryl.Session) {
   }
 
   /** Get a country from the COUNTRIES table by its ID. */
-  def getCountryFromId(id: Int): Option[Country] = {
+  def getCountryFromCode(code: String): Option[Country] = {
     using(session) {
-      from(Database.Tables.countries)(select(_)).where(_.id === id).headOption
+      from(Database.Tables.countries)(select(_))
+        .where(_.code === code)
+        .headOption
     }
   }
 

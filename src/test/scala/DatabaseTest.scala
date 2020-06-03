@@ -45,15 +45,15 @@ class DatabaseTest extends org.scalatest.FunSuite {
     Database.stop
   }
 
-  test("getCountryFromId simple") {
+  test("getCountryFromCode simple") {
     implicit val session = Database.start()
     val countryRepo = new CountryRepository
 
-    val country = new Country(0, "FR", "France", "EU", "wiki", None)
+    val country = new Country("FR", "France", None)
 
     countryRepo.postCountry(country)
 
-    val res = countryRepo.getCountryFromId(0)
+    val res = countryRepo.getCountryFromCode("FR")
 
     assert(!res.isEmpty)
     assert(res.get.toString.equals(country.toString))
@@ -61,26 +61,26 @@ class DatabaseTest extends org.scalatest.FunSuite {
     Database.stop
   }
 
-  test("getCountryFromId empty") {
+  test("getCountryFromCode empty") {
     implicit val session = Database.start()
     val countryRepo = new CountryRepository
 
-    val res = countryRepo.getCountryFromId(0)
+    val res = countryRepo.getCountryFromCode("FR")
 
     assert(res.isEmpty)
 
     Database.stop
   }
 
-  test("getCountryFromId not found") {
+  test("getCountryFromCode not found") {
     implicit val session = Database.start()
     val countryRepo = new CountryRepository
 
-    val country = new Country(0, "FR", "France", "EU", "wiki", None)
+    val country = new Country("FR", "France", None)
 
     countryRepo.postCountry(country)
 
-    val res = countryRepo.getCountryFromId(1)
+    val res = countryRepo.getCountryFromCode("US")
 
     assert(res.isEmpty)
 
