@@ -5,5 +5,5 @@ class Runway(
     val id: String,
     val airportRef: String,
     val surface: String,
-    val leIdent: String
+    val leIdent: Option[String]
 )

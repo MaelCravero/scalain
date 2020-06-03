@@ -21,23 +21,30 @@ object Parser {
     lines.map(line => line.split(','))
   }
 
+  def parse_airports() = {
+    parse_resource("resources/airports.csv").map({ array =>
+      new Airport(array(0), array(3), array(8))
+    })
+  }
+
+  def parse_countries() = {
+    parse_resource("resources/countries.csv").map({ array =>
+      new Country(array(1), array(2), if (array.length <= 5) None else Some(array(5)))
+    })
+  }
+
+  def parse_runways() = {
+    var c = 0
+    parse_resource("resources/runways.csv").map({ array =>
+      new Runway(array(0), array(1), array(5), if (array.length <= 8) None else Some(array(8)))
+    })
+  }
+
   def include_resources(session : org.squeryl.Session) : Unit = {
-
     using (session) {
-      parse_resource("resources/airports.csv").map({ array =>
-        Database.Tables.airports.insert(new Airport(array(0), array(3), array(8)))
-      })
-
-      parse_resource("resources/countries.csv").map({ array =>
-        Database.Tables.countries
-                .insert(new Country(array(1), array(2),
-                                    if (array(5) == "") None else Some(array(5))))
-      })
-
-      parse_resource("resources/runways.csv").map({ array =>
-        Database.Tables.runways
-                .insert(new Runway(array(0), array(1), array(5), array(8)))
-      })
+      parse_airports().foreach(Database.Tables.airports.insert)
+      parse_countries().foreach(Database.Tables.countries.insert)
+      parse_runways().foreach(Database.Tables.runways.insert)
     }
   }
 

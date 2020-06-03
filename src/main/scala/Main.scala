@@ -38,4 +38,6 @@ object Main extends App {
       println("Not a valid command, please use one of the following:")
     }
   }
+
+  session.close
 }
