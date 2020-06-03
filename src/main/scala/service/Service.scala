@@ -30,6 +30,13 @@ class Service(implicit val session: org.squeryl.Session) {
         .map(a => (a.name, airportRepo.getRunways(a.id).map(r => r.id)))
   }
 
+  def getAirportsPerCountryNumber(): List[(String, Int)] = {
+    countryRepo
+      .getAllCountries()
+      .map(c => (c.name, countryRepo.getAirports(c.code).length))
+      .sortWith(_._2 > _._2)
+  }
+
   def getRunwayTypePerCountry(): List[(String, List[String])] = {
     countryRepo.getAllCountries.map { c =>
       (

@@ -20,6 +20,18 @@ class Controller(implicit val session: org.squeryl.Session) {
       })
   }
 
+  def displayMostAirports() = {
+    val list = service.getAirportsPerCountryNumber
+
+    val printElt = (t: (String, Int)) => println(s"${t._1} - ${t._2} airports")
+
+    println("MOST AIRPORTS:")
+    list.take(10).foreach(printElt)
+
+    println("LEAST AIRPORTS")
+    list.reverse.take(10).foreach(printElt)
+  }
+
   def displayRunwayTypePerCountry() = {
     println("SURFACES OF RUNWAYS IN EACH COUNTRY")
 
