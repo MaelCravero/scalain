@@ -50,16 +50,4 @@ class CountryRepository(implicit val session: org.squeryl.Session) {
     }
   }
 
-  /** Get countries with highest number of airports. */
-  def getMostAirports(n: Int): List[Country] = {
-    using(session) {
-      join(Database.Tables.countries, Database.Tables.airports)(
-        (country, airport) =>
-          select(country)
-            .orderBy(count(airport.isoCountry))
-            .on(country.code === airport.isoCountry)
-      ).page(0, 10).toList
-    }
-  }
-
 }
