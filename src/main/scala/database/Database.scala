@@ -25,6 +25,14 @@ object Database {
     session
   }
 
+  /** Drop tables and close the session. */
+  def stop(implicit session: org.squeryl.Session) {
+    using(session) {
+      Tables.drop
+    }
+    session.close
+  }
+
   /** Tables class containing the tables of the DB. */
   object Tables extends Schema {
 

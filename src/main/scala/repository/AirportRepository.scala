@@ -14,4 +14,12 @@ class AirportRepository(implicit val session: org.squeryl.Session) {
       Database.Tables.airports.insert(airport)
     }
   }
+
+  /** Get a airport from the AIRPORTS table by its ID. */
+  def getAirportFromCode(id: String): Option[Airport] = {
+    using(session) {
+      from(Database.Tables.airports)(select(_)).where(_.id === id).headOption
+    }
+  }
+
 }

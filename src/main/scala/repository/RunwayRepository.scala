@@ -14,4 +14,18 @@ class RunwayRepository(implicit val session: org.squeryl.Session) {
       Database.Tables.runways.insert(runway)
     }
   }
+
+  /** Get a airport from the AIRPORTS table by its ID. */
+  def getRunwayFromId(id: String): Option[Runway] = {
+    using(session) {
+      from(Database.Tables.runways)(select(_)).where(_.id === id).headOption
+    }
+  }
+
+  /** Get most common runway latitudes. */
+  def getMostCommonLatitudes(n: Int) {
+    using(session) {
+      //from(Database.Tables.runways)(select(_))
+    }
+  }
 }

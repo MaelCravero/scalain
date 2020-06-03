@@ -14,4 +14,26 @@ class CountryRepository(implicit val session: org.squeryl.Session) {
       Database.Tables.countries.insert(country)
     }
   }
+
+  /** Get a country from the COUNTRIES table by its ID. */
+  def getCountryFromCode(code: String): Option[Country] = {
+    using(session) {
+      from(Database.Tables.countries)(select(_))
+        .where(_.code === code)
+        .headOption
+    }
+  }
+
+  /** Get countries with highest number of airports. */
+  def getMostAirports(n: Int): List[Country] = {
+    using(session) {
+      join(Database.Tables.countries, Database.Tables.airports)(
+        (country, airport) =>
+          select(country)
+            .orderBy(count(airport.isoCountry))
+            .on(country.code === airport.isoCountry)
+      ).page(0, 10).toList
+    }
+  }
+
 }
