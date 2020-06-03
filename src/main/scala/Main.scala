@@ -45,8 +45,12 @@ object Main extends App {
   }
 
   def queryInput() {
-    println("QUERY")
+    println("Please input a country name or ISO code:")
+    val country = readLine()
+
+    controller.displayAirportsAndRunways(country)
   }
+
   def printReports() {
     controller.displayRunwayTypePerCountry
   }

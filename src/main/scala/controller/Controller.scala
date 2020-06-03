@@ -7,6 +7,19 @@ import scalain.service.Service
 class Controller(implicit val session: org.squeryl.Session) {
   val service = new Service
 
+  def displayAirportsAndRunways(country: String) {
+    val list = service.getAirportsAndRunways(country)
+
+    if (list.isEmpty)
+      println(s"No airports found for $country")
+    else
+      list.foreach(tup => {
+        print(s"${tup._1}")
+        tup._2.foreach(r => print(s" $r"))
+        println()
+      })
+  }
+
   def displayRunwayTypePerCountry() = {
     println("SURFACES OF RUNWAYS IN EACH COUNTRY")
 

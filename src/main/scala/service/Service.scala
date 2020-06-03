@@ -10,6 +10,26 @@ class Service(implicit val session: org.squeryl.Session) {
   val airportRepo = new AirportRepository
   val runwayRepo = new RunwayRepository
 
+  def getAirportsAndRunways(
+      country: String
+  ): List[(String, List[String])] = {
+    val countryCode: Option[String] = country match {
+      case c if !countryRepo.getCountryFromCode(c).isEmpty =>
+        Some(c)
+      case c if countryRepo.getCountryFromName(c).isEmpty =>
+        None
+      case _ =>
+        Some(countryRepo.getCountryFromName(country).get.code)
+    }
+
+    if (countryCode.isEmpty)
+      Nil
+    else
+      countryRepo
+        .getAirports(countryCode.get)
+        .map(a => (a.name, airportRepo.getRunways(a.id).map(r => r.id)))
+  }
+
   def getRunwayTypePerCountry(): List[(String, List[String])] = {
     countryRepo.getAllCountries.map { c =>
       (
