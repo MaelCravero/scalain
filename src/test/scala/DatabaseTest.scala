@@ -86,4 +86,59 @@ class DatabaseTest extends org.scalatest.FunSuite {
 
     Database.stop
   }
+
+  test("getMostAirports size 1") {
+    implicit val session = Database.start()
+    val countryRepo = new CountryRepository
+    val airportRepo = new AirportRepository
+
+    val country1 = new Country("FR", "France", None)
+    val country2 = new Country("US", "United States", None)
+
+    airportRepo.postAirport(new Airport("0", "FR_1", "FR"))
+    airportRepo.postAirport(new Airport("0", "FR_2", "FR"))
+    airportRepo.postAirport(new Airport("0", "FR_3", "FR"))
+    airportRepo.postAirport(new Airport("0", "US_1", "US"))
+
+    val res = countryRepo.getMostAirports(1)
+
+    assert(res.length == 1)
+    assert(res.lift(0).get.toString.equals(country1.toString))
+
+    Database.stop
+  }
+
+  test("getMostAirports size 3") {
+    implicit val session = Database.start()
+    val countryRepo = new CountryRepository
+    val airportRepo = new AirportRepository
+
+    val country1 = new Country("FR", "France", None)
+    val country2 = new Country("US", "United States", None)
+    val country3 = new Country("UK", "United Kingdom", None)
+    val country4 = new Country("DE", "Germany", None)
+    val country5 = new Country("ES", "Spain", None)
+    val country6 = new Country("PL", "Poland", None)
+
+    airportRepo.postAirport(new Airport("0", "FR_1", "FR"))
+    airportRepo.postAirport(new Airport("0", "FR_2", "FR"))
+    airportRepo.postAirport(new Airport("0", "FR_3", "FR"))
+    airportRepo.postAirport(new Airport("0", "FR_4", "FR"))
+    airportRepo.postAirport(new Airport("0", "US_1", "US"))
+    airportRepo.postAirport(new Airport("0", "UK_1", "UK"))
+    airportRepo.postAirport(new Airport("0", "UK_2", "UK"))
+    airportRepo.postAirport(new Airport("0", "UK_3", "UK"))
+    airportRepo.postAirport(new Airport("0", "PL_1", "PL"))
+    airportRepo.postAirport(new Airport("0", "PL_2", "PL"))
+    airportRepo.postAirport(new Airport("0", "ES_1", "US"))
+
+    val res = countryRepo.getMostAirports(1)
+
+    assert(res.length == 3)
+    assert(res.lift(0).get.toString.equals(country1.toString))
+    assert(res.lift(0).get.toString.equals(country3.toString))
+    assert(res.lift(0).get.toString.equals(country6.toString))
+
+    Database.stop
+  }
 }
