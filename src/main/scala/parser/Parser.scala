@@ -14,11 +14,20 @@ object Parser {
     source.getLines
   }
 
+  /** Remove quotes if the input is a possibly empty string surrounded by quotes **/
+  def removeQuotes(word: String): String = {
+    if (word.startsWith("\"") && word != "\"")
+      word.substring(1, word.length - 1)
+    else
+      word
+  }
+
   /** Parse a CSV file from a path **/
-  def parse_resource(path : String) = {
+  def parse_resource(path: String) = {
     val lines = read_file(path)
     lines.next
-    lines.map(line => line.split(','))
+    lines.map(line => line.split(',')
+                          .map(word => removeQuotes(word)))
   }
 
   /** Parse the airports CSV file to a collection of Airport **/

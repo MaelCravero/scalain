@@ -35,4 +35,16 @@ class Controller(implicit val session: org.squeryl.Session) {
       println()
     })
   }
+
+  def displayMostCommonRunwayLatitudes(): Unit = {
+    println("10 MOST COMMON RUNWAY LATTITUDES")
+
+    print("Processing...")
+
+    val latitudes = service.getMostCommonRunwayLatitudes
+
+    println(" Done.")
+
+    latitudes.foreach(t => println(s"${t._1}: ${t._2.toString}"))
+  }
 }

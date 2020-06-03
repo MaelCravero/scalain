@@ -53,6 +53,7 @@ object Main extends App {
 
   def printReports() {
     controller.displayRunwayTypePerCountry
+    controller.displayMostCommonRunwayLatitudes
   }
 
   println("Use one of the following commands")
