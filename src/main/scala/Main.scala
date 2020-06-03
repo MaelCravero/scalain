@@ -6,19 +6,20 @@ import scalain.database.Database
 
 object Main extends App {
 
-  val database = Database.start
-  Parser.include_resources(database)
+  /** Start database **/
+  implicit val session = Database.start()
+  /** Parse the resources files **/
+  Parser.include_resources(session)
 
   println("Use one of the following commands")
 
   while (true) {
-      println("\"query\": display a country's airports and runways")
-      println("\"reports\": display statistics")
-      println("\"quit\": quit the program")
+    println("\"query\": display a country's airports and runways")
+    println("\"reports\": display statistics")
+    println("\"quit\": quit the program")
 
-    val entry = readLine
-
-    println(entry)
+    /** Read input on stdin **/
+    val entry = readLine()
 
     if (entry == "query")
     {

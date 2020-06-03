@@ -20,7 +20,7 @@ object Parser {
     lines.map(line => line.split(','))
   }
 
-  def include_resources(database : org.squeryl.Session) : Unit = {
+  def include_resources(session : org.squeryl.Session) : Unit = {
 
     parse_resource("resources/airports.csv").map({ array =>
       Database.Tables.airports
