@@ -3,22 +3,43 @@ package scalain.test
 import scalain.database._
 import org.squeryl.PrimitiveTypeMode._
 
-class Database_Test extends org.scalatest.FunSuite {
+class DatabaseTest extends org.scalatest.FunSuite {
   test("basic insert") {
-    implicit val session = Database.start()
+    implicit val session = Database.start
 
     using(session) {
-      val country = new Country(0, "FR", "France", "EU", "wiki", None)
+      val country = new Country("FR", "France", None)
       Database.Tables.countries
         .insert(country)
 
       val res =
-        from(Database.Tables.countries)(s => select(s)).headOption.get
-          .toString()
+        from(Database.Tables.countries)(s => select(s)).headOption.get.toString
 
-      assert(country.toString() == res)
+      assert(country.toString.equals(res))
     }
 
-    session.close
+    Database.stop
+  }
+
+  test("double insert") {
+    implicit val session = Database.start
+
+    using(session) {
+      val country1 = new Country("FR", "France", None)
+      val country2 = new Country("US", "United States", None)
+
+      Database.Tables.countries
+        .insert(country1)
+      Database.Tables.countries
+        .insert(country2)
+
+      val res =
+        from(Database.Tables.countries)(s => select(s)).toList
+
+      assert(country1.toString.equals(res.lift(0).get.toString))
+      assert(country2.toString.equals(res.lift(1).get.toString))
+    }
+
+    Database.stop
   }
 }
