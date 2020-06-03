@@ -3,6 +3,8 @@ package scalain
 import scala.io.StdIn.readLine
 import scalain.parser._
 import scalain.database.Database
+import scalain.service._
+import org.squeryl.PrimitiveTypeMode._
 
 object Main extends App {
 
@@ -10,6 +12,9 @@ object Main extends App {
   implicit val session = Database.start()
   /** Parse the resources files **/
   Parser.include_resources(session)
+
+  /** Instantiate the services **/
+  val service = new Service
 
   println("Use one of the following commands")
 
@@ -27,6 +32,7 @@ object Main extends App {
     }
     else if (entry == "reports")
     {
+      service.displayTypeRunwayPerCountry()
       println("REPORTS") // Handle REPORTS
     }
     else if (entry == "quit")
