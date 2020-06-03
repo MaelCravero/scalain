@@ -57,7 +57,7 @@ object Main extends App {
   /** Function for the "reports" option. */
   def printReports() {
     controller.displayMostAirports
-    controller.displayMostCommonRunwayLatitudes
+    controller.displayMostCommonRunwayLatitudes(10)
     controller.displayRunwayTypePerCountry
   }
 
