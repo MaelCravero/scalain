@@ -2,6 +2,7 @@ package scalain.repository
 
 import scalain.database.Database
 import scalain.database.Airport
+import scalain.database.Runway
 
 import org.squeryl.PrimitiveTypeMode._
 
@@ -12,6 +13,15 @@ class AirportRepository(implicit val session: org.squeryl.Session) {
   def postAirport(airport: Airport) {
     using(session) {
       Database.Tables.airports.insert(airport)
+    }
+  }
+
+  /** Get all runways of a given airport. */
+  def getRunways(airport: String): List[Runway] = {
+    using(session) {
+      from(Database.Tables.runways)(select(_))
+        .where(_.airportRef === airport)
+        .toList
     }
   }
 

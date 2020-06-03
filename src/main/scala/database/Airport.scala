@@ -4,12 +4,14 @@ package scalain.database
 class Airport(
     val id: String,
     val name: String,
-    val isoCountry: String,
+    val isoCountry: String
 ) {
   def this() =
     this(
       "",
       "",
-      "",
+      ""
     )
+
+  override def toString(): String = s"$id - $name ($isoCountry)"
 }
