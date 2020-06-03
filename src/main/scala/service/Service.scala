@@ -58,13 +58,13 @@ class Service(implicit val session: org.squeryl.Session) {
   }
 
   /** Get the most common latitudes of runways. */
-  def getMostCommonRunwayLatitudes(): List[(String, Int)] = {
+  def getMostCommonRunwayLatitudes(n: Int): List[(String, Int)] = {
     runwayRepo.getAllRunways
       .filter(runway => runway.leIdent != None)
       .groupBy(_.leIdent)
       .map(tup => (tup._1.get, tup._2.length))
       .toList
       .sortWith((el1, el2) => el1._2 > el2._2)
-      .take(10)
+      .take(n)
   }
 }
