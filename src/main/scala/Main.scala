@@ -6,9 +6,10 @@ import scalain.database.Database
 import scalain.controller.Controller
 import org.squeryl.PrimitiveTypeMode._
 
+/** Main file of the program. */
 object Main extends App {
 
-  /** Start database **/
+  /** Connection to the database. **/
   implicit val session = Database.start()
 
   /** Parse the resources files **/
@@ -16,9 +17,10 @@ object Main extends App {
   Parser.include_resources(session)
   println(" Done.")
 
-  /** Instantiate the services **/
-  val controller = new Controller
+  /** Controller managing the various services. **/
+  private val controller = new Controller
 
+  /** Parse the user input to the program. */
   def parseUserInput() {
     println("\"query\": display a country's airports and runways")
     println("\"reports\": display statistics")
@@ -44,6 +46,7 @@ object Main extends App {
     }
   }
 
+  /** Function for the "query" option. */
   def queryInput() {
     println("Please input a country name or ISO code:")
     val country = readLine()
@@ -51,15 +54,16 @@ object Main extends App {
     controller.displayAirportsAndRunways(country)
   }
 
+  /** Function for the "reports" option. */
   def printReports() {
     controller.displayMostAirports
-    controller.displayRunwayTypePerCountry
     controller.displayMostCommonRunwayLatitudes
+    controller.displayRunwayTypePerCountry
   }
 
   println("Use one of the following commands")
 
   parseUserInput()
 
-  session.close
+  Database.stop
 }

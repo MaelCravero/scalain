@@ -5,8 +5,11 @@ import scalain.service.Service
 
 /** Controller class managing the various services. */
 class Controller(implicit val session: org.squeryl.Session) {
+
+  /** Service of the controller. */
   val service = new Service
 
+  /** Display airports and runways of all countries. */
   def displayAirportsAndRunways(country: String) {
     val list = service.getAirportsAndRunways(country)
 
@@ -20,18 +23,20 @@ class Controller(implicit val session: org.squeryl.Session) {
       })
   }
 
+  /** Display top 10 countries with most and least airports. */
   def displayMostAirports() = {
     val list = service.getAirportsPerCountryNumber
 
     val printElt = (t: (String, Int)) => println(s"${t._1} - ${t._2} airports")
 
-    println("MOST AIRPORTS:")
+    println("MOST AIRPORTS")
     list.take(10).foreach(printElt)
 
     println("LEAST AIRPORTS")
     list.reverse.take(10).foreach(printElt)
   }
 
+  /** Display the types of runways in each country. */
   def displayRunwayTypePerCountry() = {
     println("SURFACES OF RUNWAYS IN EACH COUNTRY")
 
@@ -48,6 +53,7 @@ class Controller(implicit val session: org.squeryl.Session) {
     })
   }
 
+  /** Display the most common latitudes of runways. */
   def displayMostCommonRunwayLatitudes(): Unit = {
     println("10 MOST COMMON RUNWAY LATTITUDES")
 

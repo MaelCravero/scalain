@@ -6,10 +6,16 @@ import scalain.repository._
 /** Service class responding to the requests **/
 class Service(implicit val session: org.squeryl.Session) {
 
-  val countryRepo = new CountryRepository
-  val airportRepo = new AirportRepository
-  val runwayRepo = new RunwayRepository
+  /** Country repository of the service. */
+  private val countryRepo = new CountryRepository
 
+  /** Airport repository of the service. */
+  private val airportRepo = new AirportRepository
+
+  /** Runway repository of the service. */
+  private val runwayRepo = new RunwayRepository
+
+  /** Get all airports and runways of a given country. */
   def getAirportsAndRunways(
       country: String
   ): List[(String, List[String])] = {
@@ -30,6 +36,7 @@ class Service(implicit val session: org.squeryl.Session) {
         .map(a => (a.name, airportRepo.getRunways(a.id).map(r => r.id)))
   }
 
+  /** Get the number of airports of each country. */
   def getAirportsPerCountryNumber(): List[(String, Int)] = {
     countryRepo
       .getAllCountries()
@@ -37,6 +44,7 @@ class Service(implicit val session: org.squeryl.Session) {
       .sortWith(_._2 > _._2)
   }
 
+  /** Get the runway types in each country. */
   def getRunwayTypePerCountry(): List[(String, List[String])] = {
     countryRepo.getAllCountries.map { c =>
       (
@@ -49,6 +57,7 @@ class Service(implicit val session: org.squeryl.Session) {
     }
   }
 
+  /** Get the most common latitudes of runways. */
   def getMostCommonRunwayLatitudes(): List[(String, Int)] = {
     runwayRepo.getAllRunways
       .filter(runway => runway.leIdent != None)
